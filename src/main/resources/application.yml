@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: '@project.name@'
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_schema: viewthequeue
+    generate-ddl: true
+    show-sql: false
+    database: mysql
+  liquibase:
+    default-schema: viewthequeue
+    change-log: classpath:/db/changelog/db.changelog-main.yml
+    enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: BASIC
+logging:
+  level:
+    com:
+      jamesmhare:
+        viewthequeue: DEBUG
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+server:
+  port: 8080
+DB_URL: "jdbc:mysql://localhost:3306/viewthequeue"
+DB_USERNAME: viewthequeue
+DB_PASSWORD: viewthequeue1
+MAIL_USERNAME: viewthequeue@gmail.com
+MAIL_PASSWORD: viewthequ12

@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View The Queue</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body style="background-color: #FFF0CE">
+    <header th:insert="fragments/general.html :: header"> </header>
+
+    <div class="container col-lg-8 mx-auto my-5 py-md-5">
+        <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+                <img src="https://media.istockphoto.com/photos/cute-kitten-portrait-british-shorthair-cat-picture-id916159418?k=20&m=916159418&s=612x612&w=0&h=rHUiHZGWTjqPyO7ArbEHWUpezE5u46ncxDCH24Vrj9M="
+                     class="img-fluid mx-auto d-block">
+                <h1 class="mb-4 text-center">Oops, something went wrong!</h1>
+                <p class="mb-4 text-center">Please go back and try again.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="fragments/general.html :: footer"> </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+</body>
+</html>
