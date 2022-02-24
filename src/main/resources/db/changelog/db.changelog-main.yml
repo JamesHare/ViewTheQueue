@@ -1,0 +1,828 @@
+databaseChangeLog:
+  - logicalFilePath: classpath:/db/changelog/db.changelog-main.yaml
+  - changeSet:
+      author: 'James Hare'
+      id: 'VTQ-1'
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__users
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: role_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__roles
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: user_account_verification
+            columns:
+              - column:
+                  name: token
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__user_account_verification
+                    nullable: false
+              - column:
+                  name: expiry_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: password_reset_token
+            columns:
+              - column:
+                  name: token
+                  type: BINARY(16)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__password_reset_token
+                    nullable: false
+              - column:
+                  name: expiry_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+                  constraints:
+                    nullable: false
+                    references: users(user_id)
+                    foreignKeyName: fk__roles__to__users
+              - column:
+                  name: role_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: roles(role_id)
+                    foreignKeyName: fk__users__to__roles
+        - createTable:
+            tableName: user_account_verification_to_user
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+                  constraints:
+                    nullable: false
+                    references: users(user_id)
+                    foreignKeyName: fk__user_account_verification__to__users
+              - column:
+                  name: token
+                  type: BINARY(16)
+                  constraints:
+                    nullable: false
+                    references: user_account_verification(token)
+                    foreignKeyName: fk__users__to__user_account_verification
+        - createTable:
+            tableName: password_reset_token_to_user
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+                  constraints:
+                    nullable: false
+                    references: users(user_id)
+                    foreignKeyName: fk__password_reset_token__to__users
+              - column:
+                  name: token
+                  type: BINARY(16)
+                  constraints:
+                    nullable: false
+                    references: password_reset_token(token)
+                    foreignKeyName: fk__users__to__password_reset_token
+        - addUniqueConstraint:
+            tableName: users
+            constraintName: un__users__email
+            columnNames: email
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - addUniqueConstraint:
+            tableName: roles
+            constraintName: un__name
+            columnNames: name
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - addUniqueConstraint:
+            tableName: users_roles
+            constraintName: un__user_id__role_id
+            columnNames: user_id, role_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - addUniqueConstraint:
+            tableName: user_account_verification_to_user
+            constraintName: un__user_id__token
+            columnNames: user_id, token
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - addUniqueConstraint:
+            tableName: password_reset_token_to_user
+            constraintName: un__user_id__token
+            columnNames: user_id, token
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+            indexName: idx_users_roles_user_id
+            tableName: users_roles
+        - createIndex:
+            columns:
+              - column:
+                  name: role_id
+                  type: int
+            indexName: idx_users_roles_role_id
+            tableName: users_roles
+        - createIndex:
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+            indexName: idx_users_user_account_verification_user_id
+            tableName: user_account_verification_to_user
+        - createIndex:
+            columns:
+              - column:
+                  name: token
+                  type: BINARY(16)
+            indexName: idx_users_user_account_verification_token
+            tableName: user_account_verification_to_user
+        - createIndex:
+            columns:
+              - column:
+                  name: user_id
+                  type: BINARY(16)
+            indexName: idx_users_password_reset_token_user_id
+            tableName: password_reset_token_to_user
+        - createIndex:
+            columns:
+              - column:
+                  name: token
+                  type: BINARY(16)
+            indexName: idx_users_user_password_reset_token
+            tableName: password_reset_token_to_user
+  - changeSet:
+      author: 'James Hare'
+      id: 'VTQ-2'
+      changes:
+        - createTable:
+            tableName: theme_parks
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__theme_parks
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operating_status
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: opening_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: closing_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: theme_parks
+            constraintName: un__theme_parks__name
+            columnNames: name
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createTable:
+            tableName: areas
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__areas
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: areas
+            constraintName: un__areas__name
+            columnNames: name
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createTable:
+            tableName: attractions
+            columns:
+              - column:
+                  name: attraction_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__attractions
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operating_status
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: opening_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: closing_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: wait_time
+                  type: int
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_height_inches
+                  type: int
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: min_height_inches
+                  type: int
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: express_line
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: single_rider_line
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: attractions
+            constraintName: un__attractions__name
+            columnNames: name
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createTable:
+            tableName: shows
+            columns:
+              - column:
+                  name: show_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__shows
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operating_status
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: opening_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: closing_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: wait_time
+                  type: int
+                  defaultValue: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: shows
+            constraintName: un__shows__name
+            columnNames: name
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createTable:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: restaurant_id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk__restaurants
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operating_status
+                  type: VARCHAR(254)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: opening_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: closing_time
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: serves_vegetarian
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: serves_vegan
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_updated
+                  type: TIMESTAMP
+                  defaultValue: now()
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: restaurants
+            constraintName: un__restaurants__name
+            columnNames: name
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createTable:
+            tableName: theme_parks_to_areas
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: theme_parks(theme_park_id)
+                    foreignKeyName: fk__areas__to__theme_parks
+              - column:
+                  name: area_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: areas(area_id)
+                    foreignKeyName: fk__theme_parks__to__areas
+        - addUniqueConstraint:
+            tableName: theme_parks_to_areas
+            constraintName: un__theme_park_id__area_id
+            columnNames: theme_park_id, area_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+            indexName: idx_theme_parks_areas_theme_park_id
+            tableName: theme_parks_to_areas
+        - createIndex:
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+            indexName: idx_theme_parks_areas_area_id
+            tableName: theme_parks_to_areas
+        - createTable:
+            tableName: theme_parks_to_attractions
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: theme_parks(theme_park_id)
+                    foreignKeyName: fk__attractions__to__theme_parks
+              - column:
+                  name: attraction_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: attractions(attraction_id)
+                    foreignKeyName: fk__theme_parks__to__attractions
+        - addUniqueConstraint:
+            tableName: theme_parks_to_attractions
+            constraintName: un__theme_park_id__attraction_id
+            columnNames: theme_park_id, attraction_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+            indexName: idx_theme_parks_attractions_theme_park_id
+            tableName: theme_parks_to_attractions
+        - createIndex:
+            columns:
+              - column:
+                  name: attraction_id
+                  type: int
+            indexName: idx_theme_parks_attractions_attraction_id
+            tableName: theme_parks_to_attractions
+        - createTable:
+            tableName: theme_parks_to_shows
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: theme_parks(theme_park_id)
+                    foreignKeyName: fk__shows__to__theme_parks
+              - column:
+                  name: show_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: shows(show_id)
+                    foreignKeyName: fk__theme_parks__to__shows
+        - addUniqueConstraint:
+            tableName: theme_parks_to_shows
+            constraintName: un__theme_park_id__show_id
+            columnNames: theme_park_id, show_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+            indexName: idx_theme_parks_shows_theme_park_id
+            tableName: theme_parks_to_shows
+        - createIndex:
+            columns:
+              - column:
+                  name: show_id
+                  type: int
+            indexName: idx_theme_parks_shows_show_id
+            tableName: theme_parks_to_shows
+        - createTable:
+            tableName: theme_parks_to_restaurants
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: theme_parks(theme_park_id)
+                    foreignKeyName: fk__restaurants__to__theme_parks
+              - column:
+                  name: restaurant_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: restaurants(restaurant_id)
+                    foreignKeyName: fk__theme_parks__to__restaurants
+        - addUniqueConstraint:
+            tableName: theme_parks_to_restaurants
+            constraintName: un__theme_park_id__restaurant_id
+            columnNames: theme_park_id, restaurant_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: theme_park_id
+                  type: int
+            indexName: idx_theme_parks_restaurants_theme_park_id
+            tableName: theme_parks_to_restaurants
+        - createIndex:
+            columns:
+              - column:
+                  name: restaurant_id
+                  type: int
+            indexName: idx_theme_parks_restaurants_restaurant_id
+            tableName: theme_parks_to_restaurants
+        - createTable:
+            tableName: areas_to_attractions
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: areas(area_id)
+                    foreignKeyName: fk__attractions__to__areas
+              - column:
+                  name: attraction_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: attractions(attraction_id)
+                    foreignKeyName: fk__areas__to__attractions
+        - addUniqueConstraint:
+            tableName: areas_to_attractions
+            constraintName: un__area_id__attraction_id
+            columnNames: area_id, attraction_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+            indexName: idx_areas_attractions_area_id
+            tableName: areas_to_attractions
+        - createIndex:
+            columns:
+              - column:
+                  name: attraction_id
+                  type: int
+            indexName: idx_areas_attractions_attraction_id
+            tableName: areas_to_attractions
+        - createTable:
+            tableName: areas_to_shows
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: areas(area_id)
+                    foreignKeyName: fk__shows__to__areas
+              - column:
+                  name: show_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: shows(show_id)
+                    foreignKeyName: fk__areas__to__shows
+        - addUniqueConstraint:
+            tableName: areas_to_shows
+            constraintName: un__area_id__show_id
+            columnNames: area_id, show_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+            indexName: idx_areas_shows_area_id
+            tableName: areas_to_shows
+        - createIndex:
+            columns:
+              - column:
+                  name: show_id
+                  type: int
+            indexName: idx_areas_shows_show_id
+            tableName: areas_to_shows
+        - createTable:
+            tableName: areas_to_restaurants
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: areas(area_id)
+                    foreignKeyName: fk__restaurants__to__areas
+              - column:
+                  name: restaurant_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    references: restaurants(restaurant_id)
+                    foreignKeyName: fk__areas__to__restaurants
+        - addUniqueConstraint:
+            tableName: areas_to_restaurants
+            constraintName: un__area_id__restaurant_id
+            columnNames: area_id, restaurant_id
+            deferrable: false
+            disabled: false
+            initiallyDeferred: false
+        - createIndex:
+            columns:
+              - column:
+                  name: area_id
+                  type: int
+            indexName: idx_areas_restaurants_area_id
+            tableName: areas_to_restaurants
+        - createIndex:
+            columns:
+              - column:
+                  name: restaurant_id
+                  type: int
+            indexName: idx_areas_restaurants_restaurant_id
+            tableName: areas_to_restaurants

@@ -1,0 +1,22 @@
+version: "3.2"
+services:
+  db:
+    image: mysql
+    container_name: 'mysql'
+    command: --init-file /data/application/init.sql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'admin'
+      MYSQL_ROOT_PASSWORD: 'test'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - ~/.view-the-queue/.docker/mysql/data:/var/lib/mysql
+      - .config/mysql/init.sql:/data/application/init.sql
+    networks:
+      - vtq_dev
+networks:
+  vtq_dev:
+    driver: bridge

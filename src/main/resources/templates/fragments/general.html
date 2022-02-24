@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:fragment="headerfiles">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <link href="https://getbootstrap.com/docs/3.4/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet">
+    </head>
+    <body style="background-color: #FFF0CE">
+
+        <!-- start header -->
+        <div th:fragment="header">
+            <nav class="navbar fixed-top navbar-expand-sm navbar-light" style="background-color: #83B4B3; border-bottom: 2px dashed #383838">
+                <div class="container">
+                    <a
+                            href="/"
+                            class="navbar-brand mb-0 h1">
+                        <img
+                                class="d-inline-block align-top"
+                                src="https://iconscout.com/iconscout_logo-1024x1024.png"
+                                width="30" height="30"
+                        />
+                    </a>
+                    <button
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav"
+                            class="navbar-toggler"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse"
+                         id="navbarNav" >
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item active" sec:authorize="isAnonymous()">
+                                <a href="/" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
+                                    How it Works
+                                </a>
+                            </li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()">
+                                <a href="#" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()">
+                                <a href="/attractions" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
+                                    Attractions
+                                </a>
+                            </li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()">
+                                <a href="/shows" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
+                                    Shows
+                                </a>
+                            </li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()">
+                                <a href="/restaurants" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
+                                    Restaurants
+                                </a>
+                            </li>
+                            <li class="nav-item active dropdown" sec:authorize="hasAuthority('ADMIN')">
+                                <a href="#" class="nav-link active mx-1 dropdown-toggle"
+                                id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style="color: #383838; font-weight: bold">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Theme Parks</a></li>
+                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Areas</a></li>
+                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Attractions</a></li>
+                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Shows</a></li>
+                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Restaurants</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li sec:authorize="isAnonymous()">
+                                <a href="/login" class="nav-link active mx-2" style="color: #383838; font-weight: bold">
+                                    Log In
+                                </a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()">
+                                <a href="/logout" class="nav-link active mx-2" style="color: #383838; font-weight: bold">
+                                    Log Out
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav nav-pills">
+                            <li sec:authorize="isAnonymous()">
+                                <a href="/user/register" class="nav-link active px-2"
+                                   style="color: #FFF0CE; background-color: #D55534; font-weight: bold">
+                                    SIGN UP
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- end header -->
+
+        <!-- start footer -->
+        <footer th:fragment="footer" class="footer" style="background-color: #FFF0CE">
+            <div class="container">
+                <div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                    <p class="col-md-4 mb-0 text-muted">&copy; 2021 View The Queue Applications, LLC</p>
+
+                    <ul class="nav col-md-4 justify-content-end">
+                        <li class="nav-item"><a href="/footer/terms-and-conditions" class="nav-link px-2 text-muted">Terms</a></li>
+                        <li class="nav-item"><a href="/footer/privacy" class="nav-link px-2 text-muted">Privacy</a></li>
+                        <li class="nav-item"><a href="/footer/contact" class="nav-link px-2 text-muted">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <!-- end footer -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    </body>
+</html>
