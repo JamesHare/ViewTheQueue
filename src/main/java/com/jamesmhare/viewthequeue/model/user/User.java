@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
+@Generated
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

@@ -3,6 +3,7 @@ package com.jamesmhare.viewthequeue.config;
 import com.jamesmhare.viewthequeue.model.user.Role;
 import com.jamesmhare.viewthequeue.model.user.User;
 import com.jamesmhare.viewthequeue.service.user.UserManagementService;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import java.util.Set;
 /**
  * This is for testing locally and should not be shipped.
  */
+@Generated
 @EnableTransactionManagement
 @Configuration
 @Slf4j

@@ -2,6 +2,7 @@ package com.jamesmhare.viewthequeue.config;
 
 import com.jamesmhare.viewthequeue.model.repo.UserRepository;
 import com.jamesmhare.viewthequeue.service.user.UserDetailsServiceImpl;
+import lombok.Generated;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@Generated
 @Configuration
 @EnableWebSecurity
 @EnableScheduling

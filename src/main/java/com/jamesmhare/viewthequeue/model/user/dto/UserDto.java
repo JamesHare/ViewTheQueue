@@ -2,6 +2,7 @@ package com.jamesmhare.viewthequeue.model.user.dto;
 
 import lombok.*;
 
+@Generated
 @Data
 @Builder
 @AllArgsConstructor
