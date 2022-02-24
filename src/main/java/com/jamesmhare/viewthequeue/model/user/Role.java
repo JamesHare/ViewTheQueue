@@ -5,6 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * Represents a Role that will be used to grant and restrict User access.
+ *
+ * @author James Hare
+ */
 @Generated
 @EqualsAndHashCode(callSuper = true)
 @Entity

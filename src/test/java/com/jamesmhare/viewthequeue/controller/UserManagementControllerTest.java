@@ -30,7 +30,7 @@ public class UserManagementControllerTest {
     @Mock
     private EmailService mockEmailService;
     @Mock
-    private Model model;
+    private Model mockModel;
 
     private final String firstName = "test";
     private final String email = "test@domain.com";
@@ -52,8 +52,8 @@ public class UserManagementControllerTest {
 
     @Test
     public void testShowUserRegistrationView() {
-        String registrationView = controller.showUserRegistrationView(model);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("userDto", new UserDto());
+        String registrationView = controller.showUserRegistrationView(mockModel);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("userDto", new UserDto());
         Assertions.assertEquals("/user/user-registration-form", registrationView);
     }
 
@@ -61,12 +61,12 @@ public class UserManagementControllerTest {
     public void testRegisterNewUser_UserAlreadyExists() {
         Mockito.when(mockUserManagementService.findUserByEmail(email)).thenReturn(user);
 
-        String registerNewUser = controller.registerNewUser(userDto, model);
+        String registerNewUser = controller.registerNewUser(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("E-mail is already in use for another account. Please try a different E-mail Address."));
-        Mockito.verify(model, Mockito.times(1)).addAttribute("userDto", new UserDto());
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("userDto", new UserDto());
         Assertions.assertEquals("/user/user-registration-form", registerNewUser);
     }
 
@@ -78,13 +78,13 @@ public class UserManagementControllerTest {
                 any(UserAccountVerification.class))).thenReturn(userAccountVerification);
         Mockito.doThrow(new Exception()).when(mockEmailService).sendEmail(any(), any(), any());
 
-        String registerNewUser = controller.registerNewUser(userDto, model);
+        String registerNewUser = controller.registerNewUser(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("Registration has failed. Please try again or <a href=\"/contact\">contact us</a> if you" +
                         " continue to have issues."));
-        Mockito.verify(model, Mockito.times(1)).addAttribute("userDto", new UserDto());
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("userDto", new UserDto());
         Assertions.assertEquals("/user/user-registration-form", registerNewUser);
     }
 
@@ -95,7 +95,7 @@ public class UserManagementControllerTest {
         Mockito.when(mockUserManagementService.addUserAccountVerification(
                 any(UserAccountVerification.class))).thenReturn(userAccountVerification);
 
-        String registerNewUser = controller.registerNewUser(userDto, model);
+        String registerNewUser = controller.registerNewUser(userDto, mockModel);
 
         Mockito.verify(mockEmailService, Mockito.times(1)).sendEmail(
                 email,
@@ -106,19 +106,19 @@ public class UserManagementControllerTest {
                         "<a href=\"" + confirmationLink + "\">" + confirmationLink + "</a>",
                         "<i>Note: this confirmation link will expire in 24 hours. Please confirm your account as soon as possible.")
         );
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("We sent a link to your email address to activate your account. Your confirmation link" +
                         " will expire in 24 hours."));
-        Mockito.verify(model, Mockito.times(1)).addAttribute("userDto", new UserDto());
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("userDto", new UserDto());
         Assertions.assertEquals("/user/user-registration-form", registerNewUser);
     }
 
     @Test
     public void testShowAccountConfirmationView_TokenIsNull() {
-        String accountConfirmationView = controller.showAccountConfirmationView(null, model);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of("Sorry, your" +
+        String accountConfirmationView = controller.showAccountConfirmationView(null, mockModel);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of("Sorry, your" +
                         " confirmation token is invalid or has expired. Please sign up again."));
         Assertions.assertEquals("generic-alerts-view", accountConfirmationView);
     }
@@ -126,10 +126,10 @@ public class UserManagementControllerTest {
     @Test
     public void testShowAccountConfirmationView_UserAccountVerificationIsEmpty() {
         Mockito.when(mockUserManagementService.findUserAccountVerification(userToken)).thenReturn(Optional.empty());
-        String accountConfirmationView = controller.showAccountConfirmationView(userToken, model);
+        String accountConfirmationView = controller.showAccountConfirmationView(userToken, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Sorry, your confirmation token is invalid."));
         Assertions.assertEquals("generic-alerts-view", accountConfirmationView);
     }
@@ -138,13 +138,13 @@ public class UserManagementControllerTest {
     public void testShowAccountConfirmationView_TokenHasNotExpired() {
         userAccountVerification.setExpiryDate(new Date(System.currentTimeMillis() + 60000));
         Mockito.when(mockUserManagementService.findUserAccountVerification(userToken)).thenReturn(Optional.of(userAccountVerification));
-        String accountConfirmationView = controller.showAccountConfirmationView(userToken, model);
+        String accountConfirmationView = controller.showAccountConfirmationView(userToken, mockModel);
 
         Mockito.verify(mockUserManagementService, Mockito.times(1)).updateUser(any(User.class));
         Mockito.verify(mockUserManagementService, Mockito.times(1)).deleteUserAccountVerification(userToken);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "You have successfully confirmed your account. Please <a href=\"/login\">click here</a> to login."));
         Assertions.assertEquals("generic-alerts-view", accountConfirmationView);
     }
@@ -153,10 +153,10 @@ public class UserManagementControllerTest {
     public void testShowAccountConfirmationView_TokenHasExpired() {
         userAccountVerification.setExpiryDate(new Date(System.currentTimeMillis() - 1));
         Mockito.when(mockUserManagementService.findUserAccountVerification(userToken)).thenReturn(Optional.of(userAccountVerification));
-        String accountConfirmationView = controller.showAccountConfirmationView(userToken, model);
+        String accountConfirmationView = controller.showAccountConfirmationView(userToken, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Sorry, your confirmation token has expired. <a href=\"/user/resend-confirmation\">Click here</a>" +
                         " to send a new confirmation token to your email address."));
         Assertions.assertEquals("generic-alerts-view", accountConfirmationView);
@@ -164,8 +164,8 @@ public class UserManagementControllerTest {
 
     @Test
     public void testGetEmailConfirmationResendView() {
-        String emailConfirmationResendView = controller.getEmailConfirmationResendView(model);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("userDto", UserDto.builder().build());
+        String emailConfirmationResendView = controller.getEmailConfirmationResendView(mockModel);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("userDto", UserDto.builder().build());
         Assertions.assertEquals("/user/email-confirmation-resend", emailConfirmationResendView);
     }
 
@@ -173,10 +173,10 @@ public class UserManagementControllerTest {
     public void testResendEmailConfirmation_EmailAddressNotFound() {
         Mockito.when(mockUserManagementService.findUserAccountVerificationByEmail(email)).thenReturn(Optional.empty());
 
-        String resendEmailConfirmation = controller.resendEmailConfirmation(userDto, model);
+        String resendEmailConfirmation = controller.resendEmailConfirmation(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Your submissions has been received. If we have an account matching your email address, you will" +
                         " receive an email with a new confirmation link."));
         Assertions.assertEquals("/user/email-confirmation-resend", resendEmailConfirmation);
@@ -186,7 +186,7 @@ public class UserManagementControllerTest {
     public void testResendEmailConfirmation_EmailAddressFound() throws Exception {
         Mockito.when(mockUserManagementService.findUserAccountVerificationByEmail(email)).thenReturn(Optional.of(userAccountVerification));
 
-        String resendEmailConfirmation = controller.resendEmailConfirmation(userDto, model);
+        String resendEmailConfirmation = controller.resendEmailConfirmation(userDto, mockModel);
 
         Mockito.verify(mockEmailService, Mockito.times(1)).sendEmail(
                 "test@domain.com",
@@ -196,8 +196,8 @@ public class UserManagementControllerTest {
                         "Please click the following link to confirm your Email Address: ",
                         "<a href=\"" + confirmationLink + "\">" + confirmationLink + "</a>",
                         "<i>Note: this confirmation link will expire in 24 hours. Please confirm your account as soon as possible."));
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Your submissions has been received. If we have an account matching your email address, you will" +
                         " receive an email with a new confirmation link."));
         Assertions.assertEquals("/user/email-confirmation-resend", resendEmailConfirmation);
@@ -209,10 +209,10 @@ public class UserManagementControllerTest {
         Mockito.when(mockUserManagementService.findUserAccountVerificationByEmail(email)).thenReturn(Optional.of(userAccountVerification));
         Mockito.doThrow(new Exception()).when(mockEmailService).sendEmail(any(), any(), any());
 
-        String resendEmailConfirmation = controller.resendEmailConfirmation(userDto, model);
+        String resendEmailConfirmation = controller.resendEmailConfirmation(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Your submissions has been received. If we have an account matching your email address, you will" +
                         " receive an email with a new confirmation link."));
         Assertions.assertEquals("/user/email-confirmation-resend", resendEmailConfirmation);
@@ -220,8 +220,8 @@ public class UserManagementControllerTest {
 
     @Test
     public void testGetResetPasswordRequestView() {
-        String resetPasswordRequestView = controller.getResetPasswordRequestView(model);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("userDto", UserDto.builder().build());
+        String resetPasswordRequestView = controller.getResetPasswordRequestView(mockModel);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("userDto", UserDto.builder().build());
         Assertions.assertEquals("/user/request-password-reset", resetPasswordRequestView);
     }
 
@@ -229,10 +229,10 @@ public class UserManagementControllerTest {
     public void testRequestPasswordReset_UserNotFound() {
         Mockito.when(mockUserManagementService.findUserByEmail(email)).thenReturn(null);
 
-        String resetPasswordRequestView = controller.requestPasswordReset(userDto, model);
+        String resetPasswordRequestView = controller.requestPasswordReset(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Your submissions has been received. If we have an account matching your email address, you will" +
                         " receive an email with instructions to reset your password."));
         Assertions.assertEquals("/user/request-password-reset", resetPasswordRequestView);
@@ -243,7 +243,7 @@ public class UserManagementControllerTest {
         Mockito.when(mockUserManagementService.findUserByEmail(email)).thenReturn(user);
         Mockito.when(mockUserManagementService.addPasswordResetToken(any(PasswordResetToken.class))).thenReturn(passwordResetToken);
 
-        String resetPasswordRequestView = controller.requestPasswordReset(userDto, model);
+        String resetPasswordRequestView = controller.requestPasswordReset(userDto, mockModel);
 
         Mockito.verify(mockEmailService, Mockito.times(1)).sendEmail(
                 "test@domain.com",
@@ -255,8 +255,8 @@ public class UserManagementControllerTest {
                         "<i>Note: If you did not initiate this request, you can simply ignore this message."
                 )
         );
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Your submissions has been received. If we have an account matching your email address, you will" +
                         " receive an email with instructions to reset your password."));
         Assertions.assertEquals("/user/request-password-reset", resetPasswordRequestView);
@@ -268,10 +268,10 @@ public class UserManagementControllerTest {
         Mockito.when(mockUserManagementService.addPasswordResetToken(any(PasswordResetToken.class))).thenReturn(passwordResetToken);
         Mockito.doThrow(new Exception()).when(mockEmailService).sendEmail(any(), any(), any());
 
-        String resetPasswordRequestView = controller.requestPasswordReset(userDto, model);
+        String resetPasswordRequestView = controller.requestPasswordReset(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages", List.of(
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages", List.of(
                 "Your submissions has been received. If we have an account matching your email address, you will" +
                         " receive an email with instructions to reset your password."));
         Assertions.assertEquals("/user/request-password-reset", resetPasswordRequestView);
@@ -279,9 +279,9 @@ public class UserManagementControllerTest {
 
     @Test
     public void testGetResetPasswordView_TokenIsNull() {
-        String resetPasswordRequestView = controller.getResetPasswordView(null, model);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        String resetPasswordRequestView = controller.getResetPasswordView(null, mockModel);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("Sorry, your token is invalid or has expired."));
         Assertions.assertEquals("generic-alerts-view", resetPasswordRequestView);
     }
@@ -290,10 +290,10 @@ public class UserManagementControllerTest {
     public void testGetResetPasswordView_PasswordResetTokenIsEmpty() {
         Mockito.when(mockUserManagementService.findPasswordResetToken(resetToken)).thenReturn(Optional.empty());
 
-        String resetPasswordRequestView = controller.getResetPasswordView(resetToken, model);
+        String resetPasswordRequestView = controller.getResetPasswordView(resetToken, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("Sorry, your token is invalid or has expired."));
         Assertions.assertEquals("generic-alerts-view", resetPasswordRequestView);
     }
@@ -302,7 +302,7 @@ public class UserManagementControllerTest {
     public void testGetResetPasswordView_Success() {
         Mockito.when(mockUserManagementService.findPasswordResetToken(resetToken)).thenReturn(Optional.of(passwordResetToken));
 
-        String resetPasswordRequestView = controller.getResetPasswordView(resetToken, model);
+        String resetPasswordRequestView = controller.getResetPasswordView(resetToken, mockModel);
 
         Mockito.verify(mockUserManagementService, Mockito.times(1)).deletePasswordResetToken(resetToken);
         Assertions.assertEquals("/user/password-reset", resetPasswordRequestView);
@@ -312,10 +312,10 @@ public class UserManagementControllerTest {
     public void testResetUserPassword_UserNotFound() {
         Mockito.when(mockUserManagementService.findUserByEmail(email)).thenReturn(null);
 
-        String resetPasswordRequestView = controller.resetUserPassword(userDto, model);
+        String resetPasswordRequestView = controller.resetUserPassword(userDto, mockModel);
 
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", false);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", false);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("Your password could not be updated at this time. Please try again later."));
         Assertions.assertEquals("/user/password-reset", resetPasswordRequestView);
     }
@@ -324,11 +324,11 @@ public class UserManagementControllerTest {
     public void testResetUserPassword_UserFound() {
         Mockito.when(mockUserManagementService.findUserByEmail(email)).thenReturn(user);
 
-        String resetPasswordRequestView = controller.resetUserPassword(userDto, model);
+        String resetPasswordRequestView = controller.resetUserPassword(userDto, mockModel);
 
         Mockito.verify(mockUserManagementService, Mockito.times(1)).updateUser(user);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("success", true);
-        Mockito.verify(model, Mockito.times(1)).addAttribute("messages",
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("success", true);
+        Mockito.verify(mockModel, Mockito.times(1)).addAttribute("messages",
                 List.of("Your password has been updated. Please login now."));
         Assertions.assertEquals("/user/password-reset", resetPasswordRequestView);
     }
