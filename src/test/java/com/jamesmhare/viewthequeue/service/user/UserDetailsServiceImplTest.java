@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
 import java.util.Set;
@@ -51,6 +52,18 @@ public class UserDetailsServiceImplTest {
         Assertions.assertTrue(userDetails.isEnabled());
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         authorities.forEach(grantedAuthority -> Assertions.assertEquals("USER", grantedAuthority.getAuthority()));
+    }
+
+    @Test
+    public void testLoadUserByUsername_UserIsNull() {
+        Mockito.when(mockUserRepository.findByEmail(email)).thenReturn(null);
+        Exception exception = Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+            userDetailsService.loadUserByUsername(email);
+        });
+
+        String expectedMessage = "Could not find user with email " + email;
+        String actualMessage = exception.getMessage();
+        Assertions.assertEquals(expectedMessage, actualMessage);
     }
 
 }

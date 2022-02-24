@@ -14,7 +14,6 @@ jobs:
       - run:
           name: Test
           command: mvn clean test jacoco:report coveralls:report
-      - coveralls/upload
 workflows:
   # the regression workflow
   regression:

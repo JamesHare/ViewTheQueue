@@ -1,6 +1,7 @@
 package com.jamesmhare.viewthequeue.model;
 
 import lombok.Data;
+import lombok.Generated;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
+@Generated
 @Data
 @MappedSuperclass
 public class AbstractTimestampedEntity {
