@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-    <a href="https://travis-ci.com/JamesHare/ViewTheQueue">
-        <img src="https://travis-ci.com/JamesHare/ViewTheQueue.svg?branch=main" alt="build status"></a>
+    <a href="https://circleci.com/gh/JamesHare/ViewTheQueue/tree/main">
+        <img src="https://circleci.com/gh/JamesHare/ViewTheQueue/tree/main.svg?style=shield" alt="Build Status"></a>
     <a href="https://coveralls.io/github/JamesHare/ViewTheQueue?branch=main">
         <img src="https://coveralls.io/repos/github/JamesHare/ViewTheQueue/badge.svg?branch=main" alt="Coverage Status" /></a>
     <a href="https://github.com/JamesHare/ViewTheQueue/blob/main/LICENSE">
