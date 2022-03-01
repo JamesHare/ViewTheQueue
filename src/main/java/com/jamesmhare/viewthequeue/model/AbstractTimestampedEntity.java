@@ -11,6 +11,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
+/**
+ * Provides base entity functionality to ensure timestamps are part of table entries.
+ *
+ * @author James Hare
+ */
 @Generated
 @Data
 @MappedSuperclass

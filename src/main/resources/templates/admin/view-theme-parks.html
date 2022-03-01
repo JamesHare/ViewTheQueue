@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Theme Parks</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body style="background-color: #FFF0CE">
+<header th:insert="fragments/general.html :: header"> </header>
+
+<div class="container col-lg-8 mx-auto my-5 py-md-5">
+    <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+            <h1 class="mb-4">Theme Parks</h1>
+
+            <span th:if="${themeParkToUpdate != null}">
+                <form class="row g-3" action="#" method="post" th:action="@{/admin/theme-parks/edit/{id}(id=${themeParkToUpdate.themeParkId})}" th:object="${themeParkToUpdate}">
+                    <table class="table table-striped">
+                        <thead>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Operating Status</th>
+                            <th scope="col">Opening Time</th>
+                            <th scope="col">Closing Time</th>
+                            <th scope="col"></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" id="idToUpdate" th:field="*{themeParkId}" readonly></td>
+                                <td><input type="text" class="form-control" id="nameToUpdate" th:field="*{name}" required></td>
+                                <td><input type="text" class="form-control" id="descriptionToUpdate" th:field="*{description}" required></td>
+                                <td>
+                                    <select id="operatingStatusEdit" name="operatingStatus" th:field="*{operatingStatus}">
+                                        <option th:each="operatingStatus : ${operatingStatuses}" th:selected="${operatingStatus}"
+                                                th:text="${operatingStatus}" th:value="${operatingStatus}"></option>
+                                    </select>
+                                </td>
+                                <td><input type="time" class="form-control" id="openingTimeToUpdate" th:field="*{openingTime}" required></td>
+                                <td><input type="time" class="form-control" id="closingTimeStatusToUpdate" th:field="*{closingTime}" required></td>
+                                <td><button type="submit" class="btn btn-success">Update</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </span>
+
+            <form class="row g-3" action="#" method="post" th:action="@{/admin/theme-parks/add}" th:object="${themeParkDto}">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Operating Status</th>
+                        <th scope="col">Opening Time</th>
+                        <th scope="col">Closing Time</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <span th:each="themePark : ${themeParks}">
+                        <tr>
+                            <td scope="row" th:text="${themePark.themeParkId}"></td>
+                            <td th:text="${themePark.name}"></td>
+                            <td th:text="${themePark.description}"></td>
+                            <td th:text="${themePark.operatingStatus}"></td>
+                            <td th:text="${themePark.openingTime}"></td>
+                            <td th:text="${themePark.closingTime}"></td>
+                            <td><a th:href="@{/admin/theme-parks/edit/{id}(id=${themePark.themeParkId})}"><button type="button" class="btn btn-primary">Edit</button></a></td>
+                            <td><a th:href="@{/admin/theme-parks/delete/{id}(id=${themePark.themeParkId})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+                    </span>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="name" th:field="*{name}" required></td>
+                        <td><input type="text" class="form-control" id="description" th:field="*{description}" required></td>
+                        <td>
+                            <select id="operatingStatus" name="operatingStatus" th:field="*{operatingStatus}">
+                                <option th:each="operatingStatus : ${operatingStatuses}" th:selected="${operatingStatus}"
+                                        th:text="${operatingStatus}" th:value="${operatingStatus}"></option>
+                            </select>
+                        </td>
+                        <td><input type="time" class="form-control" id="openingTime" th:field="*{openingTime}" required></td>
+                        <td><input type="time" class="form-control" id="closingTime" th:field="*{closingTime}" required></td>
+                        <td><button type="submit" class="btn btn-success">Add</button></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <span th:if="${messages != null}">
+                <div th:switch="${success}">
+                    <span th:case="${true}">
+                        <div class="alert alert-success">
+                        <span th:each="message : ${messages}" th:utext="${message}"></span>
+                    </div>
+                    </span>
+                    <span th:case="${false}">
+                        <div class="alert alert-danger">
+                        <span th:each="message : ${messages}" th:utext="${message}"></span>
+                    </div>
+                    </span>
+                </div>
+            </span>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"> </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+</body>
+</html>

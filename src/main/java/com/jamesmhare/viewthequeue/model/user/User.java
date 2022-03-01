@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Represents a User within the application.
+ *
+ * @author James Hare
+ */
 @Generated
 @EqualsAndHashCode(callSuper = true)
 @Entity

@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Represents a token that will be used to allow the User to verify their account.
+ *
+ * @author James Hare
+ */
 @Generated
 @EqualsAndHashCode(callSuper = true)
 @Entity

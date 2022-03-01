@@ -45,23 +45,8 @@
                                 </a>
                             </li>
                             <li class="nav-item active" sec:authorize="isAuthenticated()">
-                                <a href="#" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
+                                <a href="/theme-parks" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
                                     Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                                <a href="/attractions" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
-                                    Attractions
-                                </a>
-                            </li>
-                            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                                <a href="/shows" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
-                                    Shows
-                                </a>
-                            </li>
-                            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                                <a href="/restaurants" class="nav-link active mx-1" style="color: #383838; font-weight: bold">
-                                    Restaurants
                                 </a>
                             </li>
                             <li class="nav-item active dropdown" sec:authorize="hasAuthority('ADMIN')">
@@ -71,11 +56,9 @@
                                     Admin
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Theme Parks</a></li>
+                                    <li><a href="/admin/theme-parks" class="dropdown-item" style="color: #383838; font-weight: bold">Theme Parks</a></li>
                                     <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Areas</a></li>
                                     <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Attractions</a></li>
-                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Shows</a></li>
-                                    <li><a href="#" class="dropdown-item" style="color: #383838; font-weight: bold">Restaurants</a></li>
                                 </ul>
                             </li>
                         </ul>

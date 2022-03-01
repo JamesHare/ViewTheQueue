@@ -289,12 +289,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: opening_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
                   name: closing_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
@@ -382,12 +382,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: opening_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
                   name: closing_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
@@ -464,12 +464,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: opening_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
                   name: closing_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
@@ -524,12 +524,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: opening_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:
                   name: closing_time
-                  type: TIMESTAMP
+                  type: TIME
                   constraints:
                     nullable: false
               - column:

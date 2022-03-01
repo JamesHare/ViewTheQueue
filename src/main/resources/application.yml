@@ -61,5 +61,5 @@ server:
 DB_URL: "jdbc:mysql://localhost:3306/viewthequeue"
 DB_USERNAME: viewthequeue
 DB_PASSWORD: viewthequeue1
-MAIL_USERNAME: viewthequeue@gmail.com
-MAIL_PASSWORD: viewthequ12
+MAIL_USERNAME:
+MAIL_PASSWORD:
