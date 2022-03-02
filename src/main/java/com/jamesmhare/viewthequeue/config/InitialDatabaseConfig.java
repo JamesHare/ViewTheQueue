@@ -55,14 +55,16 @@ public class InitialDatabaseConfig {
             userRole = userManagementService.findRoleByName("USER");
             adminRole = userManagementService.findRoleByName("ADMIN");
 
-            final User testUser = userManagementService.addUser(User.builder()
-                    .email("admin@gmail.com")
-                    .password(passwordEncoder.encode("password"))
-                    .firstName("James")
-                    .lastName("Hare")
-                    .enabled(true)
-                    .roles(Set.of(adminRole))
-                    .build());
+            if (userManagementService.findUserByEmail("admin@gmail.com") == null) {
+                final User testUser = userManagementService.addUser(User.builder()
+                        .email("admin@gmail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .firstName("James")
+                        .lastName("Hare")
+                        .enabled(true)
+                        .roles(Set.of(adminRole))
+                        .build());
+            }
 
         } catch (Exception e) {
             log.error("An error occurred when trying to add USER and ADMIN roles to database.", e);
