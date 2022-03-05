@@ -41,6 +41,11 @@
                                 <td><input type="time" class="form-control" id="closingTimeStatusToUpdate" th:field="*{closingTime}" required></td>
                                 <td><button type="submit" class="btn btn-success">Update</button></td>
                             </tr>
+                            <tr>
+                                <td><a th:href="@{/admin/areas/{themeParkId}(themeParkId=${themeParkToUpdate.themeParkId})}">
+                                    <button type="button" class="btn btn-primary">Add Areas</button></a></td>
+                                <td><a href="#"><button type="button" class="btn btn-primary">Add Attractions</button></a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </form>

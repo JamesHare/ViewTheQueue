@@ -1,18 +1,17 @@
-package com.jamesmhare.viewthequeue.model.themepark.dto;
+package com.jamesmhare.viewthequeue.model.area.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jamesmhare.viewthequeue.model.OperatingStatus;
-import com.jamesmhare.viewthequeue.model.area.Area;
+import com.jamesmhare.viewthequeue.model.themepark.ThemePark;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalTime;
-import java.util.List;
 
 /**
- * Provides a DTO for the Theme Park object.
+ * Provides a DTO for the Area object.
  *
  * @author James Hare
  */
@@ -22,10 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Validated
-public class ThemeParkDto {
+public class AreaDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long themeParkId;
+    private Long areaId;
 
     @NotEmpty
     @JsonProperty("name")
@@ -35,18 +34,8 @@ public class ThemeParkDto {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("operatingStatus")
-    private OperatingStatus operatingStatus;
-
-    @JsonProperty("openingTime")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private LocalTime openingTime;
-
-    @JsonProperty("closingTime")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private LocalTime closingTime;
-
-    @JsonProperty("areas")
-    private List<Area> areas;
+    @NotEmpty
+    @JsonProperty("themePark")
+    private ThemePark themePark;
 
 }

@@ -19,24 +19,16 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Operating Status</th>
-                    <th scope="col">Opening Time</th>
-                    <th scope="col">Closing Time</th>
-                    <th scope="col"></th>
+                    <th scope="col">Theme Park</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <span th:each="themePark : ${themeParks}">
+                <span th:each="area : ${areas}">
                     <tr>
-                        <td scope="row" th:text="${themePark.name}"></td>
-                        <td th:text="${themePark.description}"></td>
-                        <td th:text="${themePark.operatingStatus}"></td>
-                        <td th:text="${themePark.openingTime}"></td>
-                        <td th:text="${themePark.closingTime}"></td>
-                        <td><a th:href="@{/areas/{themeParkId}(themeParkId=${themePark.themeParkId})}">
-                            <button type="button" class="btn btn-primary">Areas</button>
-                        </a></td>
+                        <td scope="row" th:text="${area.name}"></td>
+                        <td th:text="${area.description}"></td>
+                        <td th:text="${area.themePark.name}"></td>
                         <td><a href="#"><button type="button" class="btn btn-primary">Attractions</button></a></td>
                     </tr>
                 </span>
