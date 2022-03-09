@@ -4,6 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * A class containing Test Cases for the {@link LoginController}.
+ *
+ * @author James Hare
+ */
 public class LoginControllerTest {
 
     private LoginController controller;
@@ -15,7 +20,7 @@ public class LoginControllerTest {
 
     @Test
     public void testLogin() {
-        String login = controller.login();
+        final String login = controller.login();
         Assertions.assertEquals("login", login);
     }
 

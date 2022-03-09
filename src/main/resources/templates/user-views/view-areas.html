@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Theme Parks</title>
+    <title>Areas</title>
     <th:block th:include="fragments/general.html :: headerfiles">
     </th:block>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
@@ -12,7 +12,7 @@
 <div class="container col-lg-8 mx-auto my-5 py-md-5">
     <div class="card shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
-            <h1 class="mb-4">Theme Parks</h1>
+            <h1 class="mb-4">Areas</h1>
 
             <table class="table table-striped">
                 <thead>
@@ -29,7 +29,9 @@
                         <td scope="row" th:text="${area.name}"></td>
                         <td th:text="${area.description}"></td>
                         <td th:text="${area.themePark.name}"></td>
-                        <td><a href="#"><button type="button" class="btn btn-primary">Attractions</button></a></td>
+                        <td><a th:href="@{/attractions/{areaId}(areaId=${area.areaId})}">
+                            <button type="button" class="btn btn-primary">Attractions</button>
+                        </a></td>
                     </tr>
                 </span>
                 </tbody>

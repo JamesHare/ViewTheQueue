@@ -381,16 +381,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: opening_time
-                  type: TIME
-                  constraints:
-                    nullable: false
-              - column:
-                  name: closing_time
-                  type: TIME
-                  constraints:
-                    nullable: false
-              - column:
                   name: wait_time
                   type: int
                   defaultValue: 0

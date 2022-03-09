@@ -23,6 +23,11 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 
+/**
+ * A class containing Test Cases for the {@link UserManagementService}.
+ *
+ * @author James Hare
+ */
 public class UserManagementServiceTest {
 
     private final String roleName = "TEST";

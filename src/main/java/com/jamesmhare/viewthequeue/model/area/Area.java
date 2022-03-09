@@ -1,17 +1,13 @@
 package com.jamesmhare.viewthequeue.model.area;
 
 import com.jamesmhare.viewthequeue.model.AbstractTimestampedEntity;
-import com.jamesmhare.viewthequeue.model.OperatingStatus;
 import com.jamesmhare.viewthequeue.model.themepark.ThemePark;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.ui.context.Theme;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 
 /**
- * Represents a Area of a Theme Park.
+ * Represents an Area of a Theme Park.
  *
  * @author James Hare
  */

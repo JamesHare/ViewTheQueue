@@ -12,6 +12,11 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
+/**
+ * A class containing Test Cases for the {@link AreaController}.
+ *
+ * @author James Hare
+ */
 public class AreaControllerTest {
 
     private final Long areaId = 1L;

@@ -10,6 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * A class containing Test Cases for the {@link UserDetailsImpl}.
+ *
+ * @author James Hare
+ */
 public class UserDetailsImplTest {
 
     private final String email = "test@domain.com";
@@ -32,43 +37,43 @@ public class UserDetailsImplTest {
 
     @Test
     public void testGetAuthorities() {
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        final Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         authorities.forEach(grantedAuthority -> Assertions.assertEquals("USER", grantedAuthority.getAuthority()));
     }
 
     @Test
     public void testGetPassword() {
-        String actualPassword = userDetails.getPassword();
+        final String actualPassword = userDetails.getPassword();
         Assertions.assertEquals(password, actualPassword);
     }
 
     @Test
     public void testGetUsername() {
-        String actualUsername = userDetails.getUsername();
+        final String actualUsername = userDetails.getUsername();
         Assertions.assertEquals(email, actualUsername);
     }
 
     @Test
     public void testIsAccountNonExpired() {
-        boolean nonExpired = userDetails.isAccountNonExpired();
+        final boolean nonExpired = userDetails.isAccountNonExpired();
         Assertions.assertTrue(nonExpired);
     }
 
     @Test
     public void testIsAccountNonLocked() {
-        boolean nonLocked = userDetails.isAccountNonLocked();
+        final boolean nonLocked = userDetails.isAccountNonLocked();
         Assertions.assertTrue(nonLocked);
     }
 
     @Test
     public void testIsCredentialsNonExpired() {
-        boolean credentialsNonExpired = userDetails.isCredentialsNonExpired();
+        final boolean credentialsNonExpired = userDetails.isCredentialsNonExpired();
         Assertions.assertTrue(credentialsNonExpired);
     }
 
     @Test
     public void testIsEnabled() {
-        boolean enabled = userDetails.isEnabled();
+        final boolean enabled = userDetails.isEnabled();
         Assertions.assertTrue(enabled);
     }
 

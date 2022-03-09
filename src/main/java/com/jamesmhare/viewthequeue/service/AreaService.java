@@ -5,6 +5,11 @@ import com.jamesmhare.viewthequeue.model.area.Area;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * In interface describing the Area Service.
+ *
+ * @author James Hare
+ */
 public interface AreaService {
 
     /**
@@ -40,7 +45,7 @@ public interface AreaService {
     Area saveArea(final Area area) throws Exception;
 
     /**
-     * Saves a list of areaa to the datasource.
+     * Saves a list of areas to the datasource.
      *
      * @param areas a list of areas.
      * @return the saved areas.

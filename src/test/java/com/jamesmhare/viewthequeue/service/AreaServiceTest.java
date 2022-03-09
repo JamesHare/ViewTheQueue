@@ -12,6 +12,11 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A class containing Test Cases for the {@link AreaService}.
+ *
+ * @author James Hare
+ */
 public class AreaServiceTest {
 
     private final Long areaId = 1L;
@@ -31,35 +36,35 @@ public class AreaServiceTest {
     @Test
     public void testFindAllAreas() {
         Mockito.when(mockAreaRepository.findAll()).thenReturn(List.of(area));
-        List<Area> allAreas = areaService.findAllAreas();
+        final List<Area> allAreas = areaService.findAllAreas();
         allAreas.forEach(foundArea -> Assertions.assertEquals(area, foundArea));
     }
 
     @Test
     public void testFindAllAreasByThemeParkId() {
         Mockito.when(mockAreaRepository.findAllByThemeParkThemeParkId(themeParkId)).thenReturn(List.of(area));
-        List<Area> allAreas = areaService.findAllAreasByThemeParkId(themeParkId);
+        final List<Area> allAreas = areaService.findAllAreasByThemeParkId(themeParkId);
         allAreas.forEach(foundArea -> Assertions.assertEquals(area, foundArea));
     }
 
     @Test
     public void testFindAreaById() {
         Mockito.when(mockAreaRepository.findById(areaId)).thenReturn(Optional.ofNullable(area));
-        Optional<Area> areaById = areaService.findAreaById(areaId);
+        final Optional<Area> areaById = areaService.findAreaById(areaId);
         Assertions.assertEquals(area, areaById.get());
     }
 
     @Test
     public void testSaveArea() throws Exception {
         Mockito.when(mockAreaRepository.save(area)).thenReturn((area));
-        Area savedArea = areaService.saveArea(area);
+        final Area savedArea = areaService.saveArea(area);
         Assertions.assertEquals(area, savedArea);
     }
 
     @Test
     public void testSaveAreas() throws Exception {
         Mockito.when(mockAreaRepository.saveAll(List.of(area))).thenReturn((List.of(area)));
-        List<Area> savedAreas = areaService.saveAreas(List.of(area));
+        final List<Area> savedAreas = areaService.saveAreas(List.of(area));
         Assertions.assertEquals(List.of(area), savedAreas);
     }
 
@@ -74,5 +79,5 @@ public class AreaServiceTest {
         areaService.deleteAreas(List.of(area));
         Mockito.verify(mockAreaRepository, Mockito.times(1)).deleteAll(List.of(area));
     }
-    
+
 }

@@ -5,6 +5,11 @@ import com.jamesmhare.viewthequeue.model.themepark.ThemePark;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * In interface describing the Theme Park Service.
+ *
+ * @author James Hare
+ */
 public interface ThemeParkService {
 
     /**
