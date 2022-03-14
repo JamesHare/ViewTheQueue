@@ -12,20 +12,7 @@
 <div class="container col-lg-8 mx-auto my-5 py-md-5">
     <div class="card shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
-            <span th:if="${messages != null}">
-                <div th:switch="${success}">
-                    <span th:case="${true}">
-                        <div class="alert alert-success">
-                        <span th:each="message : ${messages}" th:utext="${message}"></span>
-                    </div>
-                    </span>
-                    <span th:case="${false}">
-                        <div class="alert alert-danger">
-                        <span th:each="message : ${messages}" th:utext="${message}"></span>
-                    </div>
-                    </span>
-                </div>
-            </span>
+            <div th:insert="fragments/general.html :: alerts"></div>
         </div>
     </div>
 </div>

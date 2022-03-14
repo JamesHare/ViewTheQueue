@@ -1,4 +1,4 @@
-package com.jamesmhare.viewthequeue.controller.config;
+package com.jamesmhare.viewthequeue.config;
 
 import com.jamesmhare.viewthequeue.model.repo.UserRepository;
 import com.jamesmhare.viewthequeue.service.user.UserDetailsServiceImpl;
@@ -89,7 +89,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/dashboard/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/associate/**").hasAnyAuthority("ASSOCIATE")
+                .antMatchers("/dashboard/**").hasAnyAuthority("ADMIN", "ASSOCIATE", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error=true").permitAll()
