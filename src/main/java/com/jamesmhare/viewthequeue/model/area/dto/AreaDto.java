@@ -1,14 +1,11 @@
 package com.jamesmhare.viewthequeue.model.area.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jamesmhare.viewthequeue.model.OperatingStatus;
 import com.jamesmhare.viewthequeue.model.themepark.ThemePark;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalTime;
 
 /**
  * Provides a DTO for the Area object.

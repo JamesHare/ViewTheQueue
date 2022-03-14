@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Enables a Repository for CRUD to the datasource for {@link UserAccountVerification} objects.
+ *
+ * @author James Hare
+ */
 public interface UserAccountVerificationRepository extends JpaRepository<UserAccountVerification, UUID> {
 
     UserAccountVerification findByUser(final User user);

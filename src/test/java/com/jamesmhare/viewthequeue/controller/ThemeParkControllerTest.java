@@ -12,6 +12,11 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
+/**
+ * A class containing Test Cases for the {@link ThemeParkController}.
+ *
+ * @author James Hare
+ */
 public class ThemeParkControllerTest {
 
     private final Long themeParkId = 1L;

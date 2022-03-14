@@ -1,4 +1,4 @@
-package com.jamesmhare.viewthequeue.config;
+package com.jamesmhare.viewthequeue.controller.config;
 
 import com.jamesmhare.viewthequeue.model.repo.UserRepository;
 import com.jamesmhare.viewthequeue.service.user.UserDetailsServiceImpl;
@@ -15,6 +15,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Handles the security config beans necessary for Role Based AuthN.
+ *
+ * @author James Hare
+ */
 @Generated
 @Configuration
 @EnableWebSecurity
@@ -27,29 +32,57 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Creates a new UserDetailsService Bean.
+     *
+     * @return the User Details Service Bean.
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl(userRepository);
     }
 
+    /**
+     * Creates a new BCryptPasswordEncoder Bean.
+     *
+     * @return the BCrypt Password Encoder Bean.
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Creates a new DaoAuthenticationProvider Bean which pulls together the user details service
+     * and the password encoder.
+     *
+     * @return the DaoAuthenticationProvider Bean.
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
+    /**
+     * Configures the web security config with the authentication provider.
+     *
+     * @param auth the Authentication Manager Builder.
+     */
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
+    /**
+     * Configures Http Security across the web application. Defines which roles are required to
+     * access specific endpoints, along with the login and logout endpints.
+     *
+     * @param http an HttpSecurity object.
+     * @throws Exception if an error occurred when updating the HttpSecurity object.
+     */
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()

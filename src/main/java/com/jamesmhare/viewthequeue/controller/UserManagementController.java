@@ -19,6 +19,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * The Controller responsible for User Self-Service such as New User Registration and
+ * User Password Resets.
+ *
+ * @author James Hare
+ */
 @Slf4j
 @Controller
 @RequestMapping("user")
@@ -33,12 +39,25 @@ public class UserManagementController {
         this.emailService = emailService;
     }
 
+    /**
+     * Sets the model attributes and returns the User Registration View.
+     *
+     * @param model the Spring Model.
+     * @return the User Registration View.
+     */
     @GetMapping("register")
     public String showUserRegistrationView(final Model model) {
         model.addAttribute("userDto", new UserDto());
         return "/user/user-registration-form";
     }
 
+    /**
+     * Registers a new User.
+     *
+     * @param userDto the new User to register.
+     * @param model   the Spring Model.
+     * @return the User Registration View with confirmation or error message for the User.
+     */
     @PostMapping("register")
     public String registerNewUser(final UserDto userDto, final Model model) {
         if (userManagementService.findUserByEmail(userDto.getEmailAddress()) != null) {
@@ -54,7 +73,7 @@ public class UserManagementController {
             log.info("Registered new user = {}", user.toString());
 
             final Date twentyFourHoursFromNow = new Date(System.currentTimeMillis() + 86400000);
-            UserAccountVerification userAccountVerification = userManagementService
+            final UserAccountVerification userAccountVerification = userManagementService
                     .addUserAccountVerification(UserAccountVerification.builder()
                             .expiryDate(twentyFourHoursFromNow)
                             .user(user)
@@ -77,6 +96,13 @@ public class UserManagementController {
         }
     }
 
+    /**
+     * Shows a View for the User to confirm their new account.
+     *
+     * @param token the account confirmation token.
+     * @param model the Spring Model.
+     * @return the Generic Alerts View with results of user account confirmation.
+     */
     @GetMapping("confirm")
     public String showAccountConfirmationView(@RequestParam("token") final UUID token, final Model model) {
         if (token == null) {
@@ -114,12 +140,25 @@ public class UserManagementController {
         return "generic-alerts-view";
     }
 
+    /**
+     * Sets the model attributes and returns the Email Confirmation Resend View.
+     *
+     * @param model the Spring Model.
+     * @return the Email Confirmation Resend View.
+     */
     @GetMapping("resend-confirmation")
     public String getEmailConfirmationResendView(final Model model) {
         model.addAttribute("userDto", new UserDto());
         return "/user/email-confirmation-resend";
     }
 
+    /**
+     * Resends an account confirmation email for the User.
+     *
+     * @param userDto the User who wants to resend an account confirmation email.
+     * @param model   the Spring Model.
+     * @return the Email Confirmation Resend View with messages for the User.
+     */
     @PostMapping("resend-confirmation")
     public String resendEmailConfirmation(final UserDto userDto, final Model model) {
         final Optional<UserAccountVerification> userAccountVerification = userManagementService.findUserAccountVerificationByEmail(userDto.getEmailAddress());
@@ -150,12 +189,25 @@ public class UserManagementController {
         return "/user/email-confirmation-resend";
     }
 
+    /**
+     * Sets the model attributes and returns the Request Password Reset View.
+     *
+     * @param model the Spring Model.
+     * @return the Request Password Reset View.
+     */
     @GetMapping("request-password-reset")
     public String getResetPasswordRequestView(final Model model) {
         model.addAttribute("userDto", new UserDto());
         return "/user/request-password-reset";
     }
 
+    /**
+     * Requests a Password Reset for the User.
+     *
+     * @param userDto the User who wants to reset their password.
+     * @param model   the Spring Model.
+     * @return The Request Password Reset View.
+     */
     @PostMapping("request-password-reset")
     public String requestPasswordReset(final UserDto userDto, final Model model) {
         final User user = userManagementService.findUserByEmail(userDto.getEmailAddress());
@@ -184,6 +236,13 @@ public class UserManagementController {
         return "/user/request-password-reset";
     }
 
+    /**
+     * Allows the User to reset their password with a valid Password Reset Token.
+     *
+     * @param token the Password Reset Token.
+     * @param model the Spring Model.
+     * @return the Password Reset View.
+     */
     @GetMapping("reset")
     public String getResetPasswordView(@RequestParam("token") final UUID token, final Model model) {
         if (token == null) {
@@ -211,6 +270,13 @@ public class UserManagementController {
         return "/user/password-reset";
     }
 
+    /**
+     * Resets the Password of the User.
+     *
+     * @param userDto the User who wants to reset their password.
+     * @param model   the Spring Model.
+     * @return the Password Reset View.
+     */
     @PostMapping("reset")
     public String resetUserPassword(final UserDto userDto, final Model model) {
         final User foundUser = userManagementService.findUserByEmail(userDto.getEmailAddress());

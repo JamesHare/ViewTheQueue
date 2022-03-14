@@ -12,6 +12,11 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A class containing Test Cases for the {@link ThemeParkService}.
+ *
+ * @author James Hare
+ */
 public class ThemeParkServiceTest {
 
     private final Long themeParkId = 1L;
@@ -30,21 +35,21 @@ public class ThemeParkServiceTest {
     @Test
     public void testFindAllThemeParks() {
         Mockito.when(mockThemeParkRepository.findAll()).thenReturn(List.of(themePark));
-        List<ThemePark> allThemeParks = themeParkService.findAllThemeParks();
+        final List<ThemePark> allThemeParks = themeParkService.findAllThemeParks();
         allThemeParks.forEach(foundThemePark -> Assertions.assertEquals(themePark, foundThemePark));
     }
 
     @Test
     public void testFindThemeParkById() {
         Mockito.when(mockThemeParkRepository.findById(themeParkId)).thenReturn(Optional.ofNullable(themePark));
-        Optional<ThemePark> themeParkById = themeParkService.findThemeParkById(themeParkId);
+        final Optional<ThemePark> themeParkById = themeParkService.findThemeParkById(themeParkId);
         Assertions.assertEquals(themePark, themeParkById.get());
     }
 
     @Test
     public void testSaveThemePark() throws Exception {
         Mockito.when(mockThemeParkRepository.save(themePark)).thenReturn((themePark));
-        ThemePark savedThemePark = themeParkService.saveThemePark(themePark);
+        final ThemePark savedThemePark = themeParkService.saveThemePark(themePark);
         Assertions.assertEquals(themePark, savedThemePark);
     }
 

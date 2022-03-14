@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Attractions</title>
+    <th:block th:include="fragments/general.html :: headerfiles">
+    </th:block>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+<body style="background-color: #FFF0CE">
+<header th:insert="fragments/general.html :: header"> </header>
+
+<div class="container col-lg-8 mx-auto my-5 py-md-5">
+    <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+            <h1 class="mb-4">Attractions</h1>
+
+            <span th:if="${attractionToUpdate != null}">
+                <form class="row g-3" action="#" method="post" th:action="@{/admin/attractions/edit/{id}(id=${attractionToUpdate.attractionId})}" th:object="${attractionToUpdate}">
+                    <table class="table table-striped">
+                        <thead>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Area</th>
+                            <th scope="col">Theme Park</th>
+                            <th scope="col">Operating Status</th>
+                            <th scope="col">Wait Time</th>
+                            <th scope="col">Min Height</th>
+                            <th scope="col">Max Height</th>
+                            <th scope="col">Express Line</th>
+                            <th scope="col">Single Rider Line</th>
+                            <th scope="col"></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" class="form-control" id="idToUpdate" th:field="*{attractionId}" readonly></td>
+                                <td><input type="text" class="form-control" id="nameToUpdate" th:field="*{name}" required></td>
+                                <td><input type="text" class="form-control" id="descriptionToUpdate" th:field="*{description}" required></td>
+                                <input type="text" class="form-control" id="areaIdToUpdate" th:field="*{area.areaId}" hidden>
+                                <td><input type="text" class="form-control" id="areaNameToUpdate" th:field="*{area.name}" readonly></td>
+                                <input type="text" class="form-control" id="themeParkIdToUpdate" th:field="*{themePark.themeParkId}" hidden>
+                                <td><input type="text" class="form-control" id="themeParkNameToUpdate" th:field="*{themePark.name}" readonly></td>
+                                <input type="text" class="form-control" id="themeParkDescriptionToUpdate" th:field="*{themePark.description}" hidden>
+                                <input type="text" class="form-control" id="themeParkOperatingStatusToUpdate" th:field="*{themePark.operatingStatus}" hidden>
+                                <input type="time" class="form-control" id="themeParkOpeningTimeToUpdate" th:field="*{themePark.openingTime}" hidden>
+                                <input type="time" class="form-control" id="themeParkClosingTimeToUpdate" th:field="*{themePark.closingTime}" hidden>
+                                <td>
+                                    <select id="operatingStatusEdit" name="operatingStatus" th:field="*{operatingStatus}">
+                                        <option th:each="operatingStatus : ${operatingStatuses}" th:selected="${operatingStatus}"
+                                                th:text="${operatingStatus}" th:value="${operatingStatus}"></option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" id="waitTimeToUpdate" th:field="*{waitTime}" required></td>
+                                <td><input type="text" class="form-control" id="minHeightInchesToUpdate" th:field="*{minHeightInches}" required></td>
+                                <td><input type="text" class="form-control" id="maxHeightInchesToUpdate" th:field="*{maxHeightInches}" required></td>
+                                <td><input type="checkbox" class="form-check-input" id="hasExpressLineToUpdate" th:field="*{hasExpressLine}"></td>
+                                <td><input type="checkbox" class="form-check-input" id="hasSingleRiderLineToUpdate" th:field="*{hasSingleRiderLine}"></td>
+                                <td><button type="submit" class="btn btn-success">Update</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </span>
+
+            <form class="row g-3" action="#" method="post" th:action="@{/admin/attractions/add}" th:object="${attractionDto}">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Area</th>
+                        <th scope="col">Theme Park</th>
+                        <th scope="col">Operating Status</th>
+                        <th scope="col">Wait Time</th>
+                        <th scope="col">Min Height</th>
+                        <th scope="col">Max Height</th>
+                        <th scope="col">Express Line</th>
+                        <th scope="col">Single Rider Line</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <span th:each="attraction : ${attractions}">
+                        <tr>
+                            <td scope="row" th:text="${attraction.attractionId}"></td>
+                            <td th:text="${attraction.name}"></td>
+                            <td th:text="${attraction.description}"></td>
+                            <td th:text="${attraction.area.name}"></td>
+                            <td th:text="${attraction.themePark.name}"></td>
+                            <td th:text="${attraction.operatingStatus}"></td>
+                            <td th:text="${attraction.waitTime}"></td>
+                            <td th:text="${attraction.minHeightInches}"></td>
+                            <td th:text="${attraction.maxHeightInches}"></td>
+                            <td th:text="${attraction.hasExpressLine}"></td>
+                            <td th:text="${attraction.hasSingleRiderLine}"></td>
+                            <td><a th:href="@{/admin/attractions/edit/{id}(id=${attraction.attractionId})}"><button type="button" class="btn btn-primary">Edit</button></a></td>
+                            <td><a th:href="@{/admin/attractions/delete/{id}(id=${attraction.attractionId})}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+                        </tr>
+                    </span>
+                    <tr>
+                        <td></td>
+                        <td><input type="text" class="form-control" id="name" th:field="*{name}" required></td>
+                        <td><input type="text" class="form-control" id="description" th:field="*{description}" required></td>
+                        <input type="text" class="form-control" id="areaId" th:field="*{area.areaId}" hidden>
+                        <td><input type="text" class="form-control" id="areaName" th:field="*{area.name}" readonly></td>
+                        <input type="text" class="form-control" id="themeParkId" th:field="*{themePark.themeParkId}" hidden>
+                        <td><input type="text" class="form-control" id="themeParkName" th:field="*{themePark.name}" readonly></td>
+                        <input type="text" class="form-control" id="themeParkDescription" th:field="*{themePark.description}" hidden>
+                        <input type="text" class="form-control" id="themeParkOperatingStatus" th:field="*{themePark.operatingStatus}" hidden>
+                        <input type="time" class="form-control" id="themeParkOpeningTime" th:field="*{themePark.openingTime}" hidden>
+                        <input type="time" class="form-control" id="themeParkClosingTime" th:field="*{themePark.closingTime}" hidden>
+                        <td>
+                            <select id="operatingStatus" name="operatingStatus" th:field="*{operatingStatus}">
+                                <option th:each="operatingStatus : ${operatingStatuses}" th:selected="${operatingStatus}"
+                                        th:text="${operatingStatus}" th:value="${operatingStatus}"></option>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control" id="waitTime" th:field="*{waitTime}" required></td>
+                        <td><input type="text" class="form-control" id="minHeightInches" th:field="*{minHeightInches}" required></td>
+                        <td><input type="text" class="form-control" id="maxHeightInches" th:field="*{maxHeightInches}" required></td>
+                        <td><input type="checkbox" class="form-check-input" id="hasExpressLine" th:field="*{hasExpressLine}"></td>
+                        <td><input type="checkbox" class="form-check-input" id="hasSingleRiderLine" th:field="*{hasSingleRiderLine}"></td>
+                        <td><button type="submit" class="btn btn-success">Add</button></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <span th:if="${messages != null}">
+                <div th:switch="${success}">
+                    <span th:case="${true}">
+                        <div class="alert alert-success">
+                        <span th:each="message : ${messages}" th:utext="${message}"></span>
+                    </div>
+                    </span>
+                    <span th:case="${false}">
+                        <div class="alert alert-danger">
+                        <span th:each="message : ${messages}" th:utext="${message}"></span>
+                    </div>
+                    </span>
+                </div>
+            </span>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/general.html :: footer"> </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+</body>
+</html>

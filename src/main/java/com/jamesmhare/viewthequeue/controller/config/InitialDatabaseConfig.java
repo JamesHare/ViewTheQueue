@@ -1,4 +1,4 @@
-package com.jamesmhare.viewthequeue.config;
+package com.jamesmhare.viewthequeue.controller.config;
 
 import com.jamesmhare.viewthequeue.model.user.Role;
 import com.jamesmhare.viewthequeue.model.user.User;
@@ -13,7 +13,9 @@ import javax.annotation.PostConstruct;
 import java.util.Set;
 
 /**
- * This is for testing locally and should not be shipped.
+ * This is for testing locally and, ideally, should not be shipped.
+ *
+ * @author James Hare
  */
 @Generated
 @EnableTransactionManagement
@@ -30,6 +32,10 @@ public class InitialDatabaseConfig {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Runs after class is instantiated to set up database roles and
+     * default admin account.
+     */
     @PostConstruct
     public void init() {
         try {
@@ -66,7 +72,7 @@ public class InitialDatabaseConfig {
                         .build());
             }
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.error("An error occurred when trying to add USER and ADMIN roles to database.", e);
         }
 

@@ -27,17 +27,28 @@
                     <tr>
                         <td><input type="text" class="form-control" id="id" th:field="*{areaId}" readonly></td>
                         <td><input type="text" class="form-control" id="name" th:field="*{name}" readonly></td>
-                        <td><input type="text" class="form-control" id="description" th:field="*{description}" readonly></td>
-                        <input type="text" class="form-control" id="themeParkIdToUpdate" th:field="*{themePark.themeParkId}" hidden>
-                        <input type="text" class="form-control" id="themeParkNameToUpdate" th:field="*{themePark.name}" hidden>
-                        <input type="text" class="form-control" id="themeParkDescriptionToUpdate" th:field="*{themePark.description}" hidden>
-                        <input type="text" class="form-control" id="themeParkOperatingStatusToUpdate" th:field="*{themePark.operatingStatus}" hidden>
-                        <input type="time" class="form-control" id="themeParkOpeningTimeToUpdate" th:field="*{themePark.openingTime}" hidden>
-                        <input type="time" class="form-control" id="themeParkClosingTimeToUpdate" th:field="*{themePark.closingTime}" hidden>
+                        <td><input type="text" class="form-control" id="description" th:field="*{description}" readonly>
+                        </td>
+                        <input type="text" class="form-control" id="themeParkIdToUpdate"
+                               th:field="*{themePark.themeParkId}" hidden>
+                        <input type="text" class="form-control" id="themeParkNameToUpdate" th:field="*{themePark.name}"
+                               hidden>
+                        <input type="text" class="form-control" id="themeParkDescriptionToUpdate"
+                               th:field="*{themePark.description}" hidden>
+                        <input type="text" class="form-control" id="themeParkOperatingStatusToUpdate"
+                               th:field="*{themePark.operatingStatus}" hidden>
+                        <input type="time" class="form-control" id="themeParkOpeningTimeToUpdate"
+                               th:field="*{themePark.openingTime}" hidden>
+                        <input type="time" class="form-control" id="themeParkClosingTimeToUpdate"
+                               th:field="*{themePark.closingTime}" hidden>
                     </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-danger" style="color: #FFF0CE; font-weight: bold">Confirm Delete</button>
+                <div class="alert alert-danger">
+                    <center>WARNING: If you delete this Area, all related Attractions will also be deleted.</center>
+                </div>
+                <button type="submit" class="btn btn-danger" style="color: #FFF0CE; font-weight: bold">Confirm Delete
+                </button>
             </form>
 
         </div>

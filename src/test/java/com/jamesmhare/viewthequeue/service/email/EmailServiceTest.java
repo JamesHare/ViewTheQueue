@@ -13,6 +13,11 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
+/**
+ * A class containing Test Cases for the {@link EmailService}.
+ *
+ * @author James Hare
+ */
 public class EmailServiceTest {
 
     private EmailService emailService;
@@ -34,7 +39,7 @@ public class EmailServiceTest {
                 "Body Part One",
                 "Body Part Two"
         );
-        MimeMessage mockMimeMessage = Mockito.mock(MimeMessage.class);
+        final MimeMessage mockMimeMessage = Mockito.mock(MimeMessage.class);
         Mockito.when(mockJavaMailSender.createMimeMessage()).thenReturn(mockMimeMessage);
 
         emailService.sendEmail(to, subject, messageBodyParts);

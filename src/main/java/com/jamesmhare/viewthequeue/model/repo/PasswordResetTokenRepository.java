@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Enables a Repository for CRUD to the datasource for {@link PasswordResetToken} objects.
+ *
+ * @author James Hare
+ */
 public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, UUID> {
 
     PasswordResetToken findByUser(final User user);

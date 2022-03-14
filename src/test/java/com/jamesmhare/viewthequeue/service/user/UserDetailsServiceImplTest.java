@@ -16,6 +16,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * A class containing Test Cases for the {@link UserDetailsServiceImpl}.
+ *
+ * @author James Hare
+ */
 public class UserDetailsServiceImplTest {
 
     private final String email = "test@domain.com";
@@ -43,26 +48,26 @@ public class UserDetailsServiceImplTest {
     @Test
     public void testLoadUserByUsername() {
         Mockito.when(mockUserRepository.findByEmail(email)).thenReturn(user);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
         Assertions.assertEquals(email, userDetails.getUsername());
         Assertions.assertEquals(password, userDetails.getPassword());
         Assertions.assertTrue(userDetails.isAccountNonExpired());
         Assertions.assertTrue(userDetails.isAccountNonLocked());
         Assertions.assertTrue(userDetails.isCredentialsNonExpired());
         Assertions.assertTrue(userDetails.isEnabled());
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        final Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         authorities.forEach(grantedAuthority -> Assertions.assertEquals("USER", grantedAuthority.getAuthority()));
     }
 
     @Test
     public void testLoadUserByUsername_UserIsNull() {
         Mockito.when(mockUserRepository.findByEmail(email)).thenReturn(null);
-        Exception exception = Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+        final Exception exception = Assertions.assertThrows(UsernameNotFoundException.class, () -> {
             userDetailsService.loadUserByUsername(email);
         });
 
-        String expectedMessage = "Could not find user with email " + email;
-        String actualMessage = exception.getMessage();
+        final String expectedMessage = "Could not find user with email " + email;
+        final String actualMessage = exception.getMessage();
         Assertions.assertEquals(expectedMessage, actualMessage);
     }
 
