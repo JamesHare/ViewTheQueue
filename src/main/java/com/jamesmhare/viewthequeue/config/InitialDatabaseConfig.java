@@ -1,4 +1,4 @@
-package com.jamesmhare.viewthequeue.controller.config;
+package com.jamesmhare.viewthequeue.config;
 
 import com.jamesmhare.viewthequeue.model.user.Role;
 import com.jamesmhare.viewthequeue.model.user.User;
@@ -40,12 +40,20 @@ public class InitialDatabaseConfig {
     public void init() {
         try {
             Role userRole = userManagementService.findRoleByName("USER");
+            Role associateRole = userManagementService.findRoleByName("ASSOCIATE");
             Role adminRole = userManagementService.findRoleByName("ADMIN");
 
             if (userRole == null) {
                 log.info("USER Role not found. Adding the USER Role to database.");
                 userManagementService.addRole(Role.builder()
                         .name("USER")
+                        .build());
+            }
+
+            if (associateRole == null) {
+                log.info("ASSOCIATE Role not found. Adding the ASSOCIATE Role to database.");
+                userManagementService.addRole(Role.builder()
+                        .name("ASSOCIATE")
                         .build());
             }
 
@@ -59,6 +67,7 @@ public class InitialDatabaseConfig {
             log.info("USER and ADMIN Roles are present in the database.");
 
             userRole = userManagementService.findRoleByName("USER");
+            associateRole = userManagementService.findRoleByName("ASSOCIATE");
             adminRole = userManagementService.findRoleByName("ADMIN");
 
             if (userManagementService.findUserByEmail("admin@gmail.com") == null) {
@@ -69,6 +78,17 @@ public class InitialDatabaseConfig {
                         .lastName("Hare")
                         .enabled(true)
                         .roles(Set.of(adminRole))
+                        .build());
+            }
+
+            if (userManagementService.findUserByEmail("associate@gmail.com") == null) {
+                final User testUser = userManagementService.addUser(User.builder()
+                        .email("associate@gmail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .firstName("James")
+                        .lastName("Hare")
+                        .enabled(true)
+                        .roles(Set.of(associateRole))
                         .build());
             }
 

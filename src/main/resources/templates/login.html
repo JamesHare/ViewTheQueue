@@ -28,20 +28,9 @@
                 <div class="vol-md-12">
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
-                <span th:if="${messages != null}">
-                    <div th:switch="${success}">
-                        <span th:case="${true}">
-                            <div class="alert alert-success">
-                            <span th:each="message : ${messages}" th:utext="${message}"></span>
-                        </div>
-                        </span>
-                        <span th:case="${false}">
-                            <div class="alert alert-danger">
-                            <span th:each="message : ${messages}" th:utext="${message}"></span>
-                        </div>
-                        </span>
-                    </div>
-                </span>
+
+                <div th:insert="fragments/general.html :: alerts"></div>
+
             </form>
         </div>
     </div>

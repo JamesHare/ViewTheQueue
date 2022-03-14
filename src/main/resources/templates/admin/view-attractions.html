@@ -14,8 +14,12 @@
         <div class="card-body">
             <h1 class="mb-4">Attractions</h1>
 
+            <div th:insert="fragments/general.html :: alerts"></div>
+
             <span th:if="${attractionToUpdate != null}">
-                <form class="row g-3" action="#" method="post" th:action="@{/admin/attractions/edit/{id}(id=${attractionToUpdate.attractionId})}" th:object="${attractionToUpdate}">
+                <form class="row g-3" action="#" method="post"
+                      th:action="@{/admin/attractions/edit/{id}(id=${attractionToUpdate.attractionId})}"
+                      th:object="${attractionToUpdate}">
                     <table class="table table-striped">
                         <thead>
                             <th scope="col">ID</th>
@@ -128,22 +132,6 @@
                     </tbody>
                 </table>
             </form>
-
-            <span th:if="${messages != null}">
-                <div th:switch="${success}">
-                    <span th:case="${true}">
-                        <div class="alert alert-success">
-                        <span th:each="message : ${messages}" th:utext="${message}"></span>
-                    </div>
-                    </span>
-                    <span th:case="${false}">
-                        <div class="alert alert-danger">
-                        <span th:each="message : ${messages}" th:utext="${message}"></span>
-                    </div>
-                    </span>
-                </div>
-            </span>
-
         </div>
     </div>
 </div>
