@@ -13,48 +13,31 @@
 <div class="container col-lg-8 mx-auto my-5 py-md-5">
     <div class="card shadow p-3 mb-5 bg-white rounded">
         <div class="card-body">
-            <h1 class="mb-4">Attractions</h1>
-
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Area</th>
-                    <th scope="col">Theme Park</th>
-                    <th scope="col">Operating Status</th>
-                    <th scope="col">Wait Time</th>
-                    <th scope="col">Min Height</th>
-                    <th scope="col">Max Height</th>
-                    <th scope="col">Express Line</th>
-                    <th scope="col">Single Rider Line</th>
-                    <th scope="col" sec:authorize="hasAuthority('ASSOCIATE')"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <span th:each="attraction : ${attractions}">
-                    <tr>
-                        <td scope="row" th:text="${attraction.name}"></td>
-                        <td th:text="${attraction.description}"></td>
-                        <td th:text="${attraction.area.name}"></td>
-                        <td th:text="${attraction.themePark.name}"></td>
-                        <td th:text="${attraction.operatingStatus}"></td>
-                        <td th:text="${attraction.waitTime}"></td>
-                        <td th:text="${attraction.minHeightInches}"></td>
-                        <td th:text="${attraction.maxHeightInches}"></td>
-                        <td th:text="${attraction.hasExpressLine}"></td>
-                        <td th:text="${attraction.hasSingleRiderLine}"></td>
-                        <td sec:authorize="hasAuthority('ASSOCIATE')">
-                            <a th:href="@{/associate/attractions/edit/{attractionId}(attractionId=${attraction.attractionId})}">
-                                <button type="button" class="btn btn-primary">Update</button>
-                            </a>
-                        </td>
-                    </tr>
-                </span>
-                </tbody>
-            </table>
-
+            <h1 class="text-center">Attractions</h1>
         </div>
+    </div>
+
+    <div class="row row-cols-3 row-cols-md-3 row-cols-sm-1 g-4">
+        <span th:each="attraction : ${attractions}">
+            <div class="col">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h4 class="card-header text-center" th:text="${attraction.name}"></h4>
+                        <p class="card-text" th:text="${attraction.description}"></p>
+                        <p class="card-text" th:text="${'Min Height: ' + {attraction.minHeightInches} + ' inches'}"></p>
+                        <p class="card-text" th:text="${'Max Height: ' + {attraction.maxHeightInches} + ' inches'}"></p>
+                        <p th:if="${attraction.hasExpressLine}" class="card-text">Express Line</p>
+                        <p th:if="${attraction.hasSingleRiderLine}" class="card-text">Single Rider Line</p>
+                        <h2 class="card-text text-center" th:text="${attraction.operatingStatus}"></h2>
+                        <h5 class="card-text text-center" th:text="${{attraction.waitTime} + ' mins'}"></h5>
+                        <center sec:authorize="hasAuthority('ASSOCIATE')">
+                            <a th:href="@{/associate/attractions/edit/{attractionId}(attractionId=${attraction.attractionId})}">
+                                <button type="button" class="btn btn-primary">Update</button></a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </span>
     </div>
 </div>
 
